@@ -1,0 +1,22 @@
+{
+  "@@locale": "it",
+  "title_app": "Recapp",
+  "yes": "Si",
+  "no": "No",
+  "theme": "Tema",
+  "light": "Chiaro",
+  "dark": "Scuro",
+  "system": "Sistema",
+  "api_key": "Chiavi API",
+  "delete": "Elimina",
+  "@_CATEGORIES": {},
+  "category": "{count, plural, =1{Categoria} other{Categorie}}",
+  "@_EXERCISES": {},
+  "exercise": "{count, plural, =1{Esercizio} other{Esercizi}}",
+  "@_DRAWER_ITEMS": {},
+  "home": "Home",
+  "reset": "Reset",
+  "settings": "Impostazioni",
+  "@_ERROR": {},
+  "error": "Errore"
+}

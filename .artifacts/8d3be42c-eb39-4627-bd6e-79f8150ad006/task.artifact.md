@@ -1,0 +1,5 @@
+- [x] Aggiornare `select_file_event.dart` con enum `SelectFileSource` e parametro in `selectFile`
+- [x] Implementare logica in `select_file_bloc.dart` per gestire Galleria, Camera e Documenti
+- [x] Aggiornare `app_home.dart` per inviare gli eventi al Bloc
+- [x] Configurare `AppInjection.dart` per fornire il `SelectFileBloc`
+- [ ] Verificare il funzionamento

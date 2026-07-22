@@ -1,0 +1,23 @@
+{
+  "@@locale": "en",
+  "title_app": "Recapp",
+  "yes": "Yes",
+  "no": "No",
+  "theme": "Theme",
+  "light": "Light",
+  "dark": "Dark",
+  "system": "System",
+  "api_key": "API Key",
+  "delete": "Delete",
+  "@_CATEGORIES": {},
+  "category": "{count, plural, =1{Category} other{Categories}}",
+  "@_EXERCISES": {},
+  "exercise": "{count, plural, =1{Exercise} other{Exercises}}",
+  "@_DRAWER_ITEMS": {},
+  "home": "Home",
+  "reset": "Reset",
+  "settings": "Settings",
+  "@_ERROR": {},
+  "error": "Error"
+}
+
