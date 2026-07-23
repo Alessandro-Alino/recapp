@@ -204,11 +204,11 @@ return $default(_that.title,_that.summary);case _:
 @JsonSerializable()
 
 class _AiResponseModel implements AiResponseModel {
-  const _AiResponseModel({required this.title, required this.summary});
+  const _AiResponseModel({this.title = '', this.summary = ''});
   factory _AiResponseModel.fromJson(Map<String, dynamic> json) => _$AiResponseModelFromJson(json);
 
-@override final  String title;
-@override final  String summary;
+@override@JsonKey() final  String title;
+@override@JsonKey() final  String summary;
 
 /// Create a copy of AiResponseModel
 /// with the given fields replaced by the non-null parameter values.

@@ -1,42 +1,6 @@
 import 'package:flutter/material.dart';
 
 class Helpers {
-  // Image Extensions
-  static final imageExtensions = [
-    '.png',
-    '.jpg',
-    '.jpeg',
-    '.gif',
-    '.webp',
-    '.bmp',
-    '.svg',
-    '.avif',
-  ];
-
-  // Document Extensions
-  static final docExtensions = [
-    '.pdf',
-    '.doc',
-    '.docx',
-    '.xls',
-    '.xlsx',
-    '.ppt',
-    '.pptx',
-    '.txt',
-    '.rtf',
-  ];
-
-  // Audio Extensions
-  static final audioExtensions = [
-    '.mp3',
-    '.wav',
-    '.ogg',
-    '.flac',
-    '.aac',
-    '.wma',
-    '.m4a',
-  ];
-
   // Show Generic Modal
   static void showGenericModal({
     required BuildContext context,
@@ -76,19 +40,5 @@ class Helpers {
         }
       }
     });
-  }
-
-  static Icon getIconByExtension(String? extension) {
-    final ext = '.$extension';
-
-    if (imageExtensions.contains(ext)) {
-      return Icon(Icons.image);
-    } else if (docExtensions.contains(ext)) {
-      return Icon(Icons.file_copy);
-    } else if (audioExtensions.contains(ext)) {
-      return Icon(Icons.audio_file_rounded);
-    } else {
-      return Icon(Icons.insert_drive_file);
-    }
   }
 }

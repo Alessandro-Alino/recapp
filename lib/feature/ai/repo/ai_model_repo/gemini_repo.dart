@@ -1,19 +1,26 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'package:dio/dio.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:recapp/config/dio/app_dio.dart';
 import 'package:recapp/config/dio/app_dio_err_interceptor.dart';
 import 'package:recapp/feature/ai/model/ai_response_model/ai_response_model.dart';
+import 'package:recapp/feature/ai/model/gemini_response_model/gemini_response_model.dart';
 import 'package:recapp/feature/ai/repo/ai_repo.dart';
+import 'package:recapp/feature/secure_value/repo/secure_value_repo.dart';
 
 class GeminiRepo implements AiRepo {
+  final SecureValueRepo _secureValueRepo;
+
   // Config
   final Dio _dio = AppDio.instance.dio;
-  final String _baseUrl =
-      'https://generativelanguage.googleapis.com/v1beta/interactions';
+  final String _baseUrl = 'https://generativelanguage.googleapis.com/v1beta';
   final Duration _connectTimeout = const Duration(seconds: 30);
   final Duration _receiveTimeout = const Duration(seconds: 30);
 
-  GeminiRepo() {
+  GeminiRepo({required this._secureValueRepo});
+
+  Future<void> _dioGemini() async {
     // Update Base Options for Gemini
     _dio.options.baseUrl = _baseUrl;
     _dio.options.connectTimeout = _connectTimeout;
@@ -25,7 +32,9 @@ class GeminiRepo implements AiRepo {
       InterceptorsWrapper(
         onRequest: (options, handler) async {
           // GET the API Key
-          final apiKey = '';
+          final apiKey = await _secureValueRepo.readApiKey(
+            key: AiRepo.geminiStorageKey,
+          );
 
           if (apiKey != null && apiKey.isNotEmpty) {
             options.headers['Content-Type'] = 'application/json';
@@ -58,34 +67,41 @@ class GeminiRepo implements AiRepo {
   }
 
   @override
-  Future<AiResponseModel> summarizeFile({
-    required String base64Data,
-    required String fileType,
-    required String mimeType,
-  }) async {
+  Future<AiResponseModel> generateSummary({required PlatformFile file}) async {
     final AiResponseModel aiResponse;
     try {
+      // Get DATA for GEMINI
+      final String base64Data = base64Encode(await file.readAsBytes());
+      final String fileType = AiRepo.getFileType(file.extension);
+      final String mimeType = AiRepo.getMIMEType(file.extension);
       log('TYPE: $fileType');
       log('MIME Type: $mimeType');
+      // Add DIO config for GEMINI
+      await _dioGemini();
       // TOTAL Response
       final response = await _dio.post(
-        '',
+        '/interactions',
         data: {
-          "model": "gemini-3.1-flash-lite",
+          "model": "gemini-3.6-flash",
           "input": [
             {"type": "text", "text": AiRepo.prompt},
             {"type": fileType, "data": base64Data, "mime_type": mimeType},
           ],
         },
       );
-      log('RESPONSE: $response');
-      // Pattern to find [TITOLO] and [RIASSUNTO]
-      aiResponse = AiRepo.parseAIResponse(response.data);
+      final GeminiResponseModel geminiResponseModel =
+          GeminiResponseModel.fromJson(response.data);
+
+      // Pattern to find [TITOLO] and [RIASSUNTO] only when type==model_output
+      // Filter the thought
+      aiResponse = AiRepo.parseAIResponse(
+        '${geminiResponseModel.steps.where((s) => s.type == 'model_output').first.content?.first.text}',
+      );
       return aiResponse;
     } on DioException catch (e) {
       return AiResponseModel(
         title: '[DIO] Errore nel riassunto',
-        summary: '[${e.response?.statusCode}] - ${e.response}',
+        summary: '[${e.response?.statusCode}] - ${e.response} - $e',
       );
     } catch (e) {
       return AiResponseModel(title: 'Errore nel riassunto', summary: '$e');

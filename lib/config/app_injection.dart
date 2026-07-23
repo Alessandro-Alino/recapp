@@ -51,9 +51,7 @@ class AppInjection extends StatelessWidget {
             )..readSupportedAIModels(),
           ),
           // Select File Bloc
-          BlocProvider<SelectFileBloc>(
-            create: (context) => SelectFileBloc(),
-          ),
+          BlocProvider<SelectFileBloc>(create: (context) => SelectFileBloc()),
         ],
         child: child,
       ),

@@ -2,7 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recapp/config/helpers/extensions.dart';
-import 'package:recapp/config/helpers/helpers.dart';
+import 'package:recapp/feature/ai/repo/ai_repo.dart';
 import 'package:recapp/feature/select_file/bloc/select_file_bloc.dart';
 import 'package:recapp/feature/select_file/widget/select_source_card.dart';
 
@@ -15,7 +15,7 @@ class SelectWidget extends StatelessWidget {
       builder: (context, state) {
         return Container(
           height: 100.0,
-          width: MediaQuery.of(context).size.width * 0.93,
+          //width: MediaQuery.of(context).size.width * 0.93,
           decoration: BoxDecoration(
             color: Colors.blueGrey.shade700.withAlpha(50),
             borderRadius: BorderRadius.circular(16.0),
@@ -40,7 +40,7 @@ class SelectWidget extends StatelessWidget {
                                 color: Colors.blueGrey.shade700,
                                 borderRadius: BorderRadius.circular(12.0),
                               ),
-                              child: Helpers.getIconByExtension(
+                              child: AiRepo.getIconByExtension(
                                 state.selectedFile!.extension,
                               ),
                             ),

@@ -7,6 +7,8 @@ sealed class AiState with _$AiState {
   const factory AiState({
     @Default(AiStatus.initial) AiStatus status,
     @Default([]) List<AiModel> supportedAIModels,
+    @Default(null) AiModel? selectedAIModels,
+    @Default(AiResponseModel()) AiResponseModel aiResponse,
     @ Default(null) AppMex? appMex,
   }) = _AiState;
 }

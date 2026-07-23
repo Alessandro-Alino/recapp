@@ -8,8 +8,8 @@ part of 'ai_response_model.dart';
 
 _AiResponseModel _$AiResponseModelFromJson(Map<String, dynamic> json) =>
     _AiResponseModel(
-      title: json['title'] as String,
-      summary: json['summary'] as String,
+      title: json['title'] as String? ?? '',
+      summary: json['summary'] as String? ?? '',
     );
 
 Map<String, dynamic> _$AiResponseModelToJson(_AiResponseModel instance) =>
